@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // WhatsApp
         if (msg.includes('whatsapp') || msg.includes('zap')) {
-            return 'Você pode nos chamar no WhatsApp: (41) 3282-3035. Estamos prontos para atender! 📱';
+            return 'Você pode nos chamar no WhatsApp: (41) 99251-3035. Estamos prontos para atender! 📱';
         }
 
         // Insurance / plans
