@@ -1,0 +1,13 @@
+.tmp/
+.venv/
+.env
+*.crdownload
+*.docx
+prompt.md
+node_modules/
+dist/
+build/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
