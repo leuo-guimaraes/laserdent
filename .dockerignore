@@ -1,0 +1,13 @@
+.git
+.tmp
+.venv
+.gitignore
+.dockerignore
+Dockerfile
+*.docx
+prompt.md
+*.crdownload
+SKILL-dental-clinic-website.md
+AGENTS.md
+fix_and_check.py
+*.py
