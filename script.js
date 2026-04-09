@@ -644,5 +644,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    // ── SHOWCASE CARDS (MOBILE TOUCH) ──
+    const showcaseCards = document.querySelectorAll('.showcase-card');
+    showcaseCards.forEach(card => {
+        card.addEventListener('touchstart', function() {
+            this.classList.toggle('hover');
+        }, {passive: true});
+    });
 
 });
