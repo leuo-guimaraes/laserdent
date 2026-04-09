@@ -173,15 +173,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pause particles when not visible
     const heroSection = document.getElementById('hero');
-    const heroObserver = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-            if (!animationId) animateParticles();
-        } else {
-            cancelAnimationFrame(animationId);
-            animationId = null;
-        }
-    });
-    heroObserver.observe(heroSection);
+    if (heroSection) {
+        const heroObserver = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                if (!animationId) animateParticles();
+            } else {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        });
+        heroObserver.observe(heroSection);
+    }
 
 
     // ── TESTIMONIALS — DYNAMIC RENDERING ──
@@ -643,13 +645,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 content.style.maxHeight = null;
             }
         });
-    });
-    // ── SHOWCASE CARDS (MOBILE TOUCH) ──
-    const showcaseCards = document.querySelectorAll('.showcase-card');
-    showcaseCards.forEach(card => {
-        card.addEventListener('touchstart', function() {
-            this.classList.toggle('hover');
-        }, {passive: true});
+    // ── FLIP CARDS (MOBILE INTERACTION) ──
+    const flipCards = document.querySelectorAll('.flip-card');
+    flipCards.forEach(card => {
+        card.addEventListener('click', () => {
+            // No mobile, remove a classe active dos outros cards para focar em um
+            flipCards.forEach(other => {
+                if (other !== card) other.classList.remove('active');
+            });
+            card.classList.toggle('active');
+        });
     });
 
 });
