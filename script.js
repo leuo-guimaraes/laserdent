@@ -614,6 +614,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 target.scrollIntoView({ behavior: 'smooth' });
             }
         });
+    // ── TREATMENT ACCORDIONS ──
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all other items
+            document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    const content = otherItem.querySelector('.accordion-content');
+                    if (content) content.style.maxHeight = null;
+                }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+            const content = item.querySelector('.accordion-content');
+            
+            if (item.classList.contains('active')) {
+                // We use scrollHeight to get the exact height for the animation
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        });
     });
 
 });

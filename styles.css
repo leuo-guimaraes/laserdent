@@ -1214,6 +1214,202 @@ textarea {
     gap: 12px;
 }
 
+/* ── Treatment Accordions ── */
+.treatment-categories {
+    margin-top: 60px;
+}
+
+.treatment-category {
+    margin-bottom: 80px;
+}
+
+.treatment-category__title {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--primary-light);
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.treatment-category__title svg {
+    width: 32px;
+    height: 32px;
+    opacity: 0.8;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.accordion-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.accordion-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(74, 173, 204, 0.2);
+}
+
+.accordion-item.active {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(74, 173, 204, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    transition: all var(--duration-fast);
+}
+
+.accordion-header__title {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.accordion-header__icon {
+    width: 32px;
+    height: 32px;
+    color: var(--primary);
+    transition: transform var(--duration-normal) var(--ease-spring);
+}
+
+.accordion-item.active .accordion-header__icon {
+    transform: scale(1.1);
+}
+
+.accordion-header h3 {
+    font-size: 1.25rem;
+    color: var(--white);
+    margin: 0;
+}
+
+.accordion-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-light);
+    transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.accordion-item.active .accordion-toggle {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all var(--duration-normal) var(--ease-out);
+    padding: 0 32px;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 5000px; /* Large enough to fit any content */
+    padding: 0 32px 32px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.treatment-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding-top: 10px;
+}
+
+.treatment-info__main {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+.treatment-info__details {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.detail-block {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary);
+}
+
+.detail-block h4 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary-light);
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.detail-block p, .detail-block ul {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+.detail-block ul {
+    list-style: none;
+}
+
+.detail-block li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+}
+
+.detail-block li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+@media (max-width: 992px) {
+    .treatment-info {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .accordion-header {
+        padding: 20px;
+    }
+    .accordion-header h3 {
+        font-size: 1.1rem;
+    }
+    .accordion-content {
+        padding: 0 20px;
+    }
+    .accordion-item.active .accordion-content {
+        padding: 0 20px 24px;
+    }
+}
+
 
 /* ══════════════════════════════════════════════════════════ */
 /* TECHNOLOGY SECTION                                        */
