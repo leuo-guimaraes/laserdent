@@ -614,6 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 target.scrollIntoView({ behavior: 'smooth' });
             }
         });
+    });
     // ── TREATMENT ACCORDIONS ──
     const accordionHeaders = document.querySelectorAll('.accordion-header');
     
