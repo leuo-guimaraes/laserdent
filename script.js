@@ -186,6 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // ── SECURITY: HTML ESCAPE FUNCTION ──
+    // Prevents XSS by sanitizing any user-generated content before DOM insertion
+    function escapeHtml(str) {
+        if (typeof str !== 'string') return '';
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
     // ── TESTIMONIALS — DYNAMIC RENDERING ──
     const track = document.getElementById('testimonialsTrack');
     const dotsContainer = document.getElementById('testimonialDots');
@@ -222,31 +231,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ];
 
-        function getApprovedTestimonials() {
-            try {
-                const all = JSON.parse(localStorage.getItem('laserdent_testimonials') || '[]');
-                return all.filter(t => t.status === 'approved');
-            } catch { return []; }
-        }
+        let currentSlide = 0;
+        let totalSlides = defaultTestimonials.length;
 
         function renderTestimonials() {
-            const approved = getApprovedTestimonials();
-            const allTestimonials = [...defaultTestimonials, ...approved];
+            if(typeof db === 'undefined') return;
 
-            track.innerHTML = '';
-            dotsContainer.innerHTML = '';
+            // Inicia um "escutador" em tempo real no banco de dados. Qualquer alteração externa refletirá instantaneamente!
+            db.collection('testimonials').where('status', '==', 'approved').onSnapshot((snapshot) => {
+                let approved = [];
+                snapshot.forEach(doc => {
+                    approved.push({ id: doc.id, ...doc.data() });
+                });
+
+                const allTestimonials = [...defaultTestimonials, ...approved];
+                totalSlides = allTestimonials.length;
+
+                track.innerHTML = '';
+                dotsContainer.innerHTML = '';
 
             allTestimonials.forEach((t, i) => {
-                const initials = t.name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-                const stars = '★'.repeat(t.stars || 5);
+                // Sanitize all user-provided fields before rendering
+                const safeName = escapeHtml(t.name || '');
+                const safeText = escapeHtml(t.text || '');
+                const initials = escapeHtml(
+                    (t.name || '').split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()
+                );
+                const stars = '★'.repeat(Math.min(Math.max(parseInt(t.stars) || 5, 1), 5));
                 const card = document.createElement('div');
                 card.className = 'testimonial-card';
                 card.innerHTML = `
                     <div class="testimonial-card__stars">${stars}</div>
-                    <p class="testimonial-card__text">${t.text}</p>
+                    <p class="testimonial-card__text">${safeText}</p>
                     <div class="testimonial-card__author">
                         <div class="testimonial-card__avatar">${initials}</div>
-                        <div><strong>${t.name}</strong></div>
+                        <div><strong>${safeName}</strong></div>
                     </div>
                 `;
                 track.appendChild(card);
@@ -257,12 +276,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 dot.addEventListener('click', () => goToSlide(i));
                 dotsContainer.appendChild(dot);
             });
-
-            return allTestimonials.length;
+            
+            // Corrige se estiver em um slide inválido após o carregamento
+            if (currentSlide >= totalSlides) goToSlide(0);
+            }); // fecha o onSnapshot
         }
 
-        let currentSlide = 0;
-        let totalSlides = renderTestimonials();
+        renderTestimonials();
 
         function goToSlide(index) {
             currentSlide = index;
@@ -322,32 +342,64 @@ document.addEventListener('DOMContentLoaded', () => {
             const name = document.getElementById('testimonialName').value.trim();
             const email = document.getElementById('testimonialEmail').value.trim();
             const text = document.getElementById('testimonialText').value.trim();
+            const starsRating = parseInt(document.getElementById('testimonialStars').value) || 5;
 
             if (!name || !email || !text) return;
 
-            // Save to localStorage as pending
-            const testimonials = JSON.parse(localStorage.getItem('laserdent_testimonials') || '[]');
-            testimonials.push({
-                id: Date.now(),
-                name,
-                email,
+            if (typeof db === 'undefined') {
+                alert("Erro de conexão com o banco de dados.");
+                return;
+            }
+
+            const btn = document.querySelector('#testimonialForm button[type="submit"]');
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = 'Enviando...';
+            btn.disabled = true;
+
+            // Monta o objeto de dados
+            const newTestimonial = {
+                name: name,
+                email: email,
                 text: `"${text}"`,
-                stars: 5,
+                stars: starsRating,
                 status: 'pending',
                 date: new Date().toISOString()
+            };
+
+            // Submit to Firebase Firestore
+            db.collection('testimonials').add(newTestimonial).then((docRef) => {
+                // Monta o payload extra pro N8N
+                const webhookPayload = {
+                    ...newTestimonial,
+                    id: docRef.id, // O ID exato gerado para este depoimento no banco
+                    database: "laserdent-b6af0",
+                    collection: "testimonials"
+                };
+
+                // Dispara o Webhook do N8N (sem bloquear o fluxo, "fire and forget")
+                fetch('https://n8n-n8n.sobpah.easypanel.host/webhook/depoimentos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(webhookPayload)
+                }).catch(e => console.log('Aviso: webhooks podem ter bloqueado CORS, mas o request foi enviado.', e));
+
+                // Show success
+                testimonialForm.style.display = 'none';
+                testimonialSuccess.classList.add('active');
+
+                setTimeout(() => {
+                    closeTestimonialModal();
+                    testimonialForm.style.display = '';
+                    testimonialForm.reset();
+                    testimonialSuccess.classList.remove('active');
+                }, 3000);
+            }).catch(error => {
+                console.error("Erro ao salvar depoimento: ", error);
+                alert("Ocorreu um erro ao enviar seu depoimento. Tente novamente mais tarde.");
+            }).finally(() => {
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
             });
-            localStorage.setItem('laserdent_testimonials', JSON.stringify(testimonials));
-
-            // Show success
-            testimonialForm.style.display = 'none';
-            testimonialSuccess.classList.add('active');
-
-            setTimeout(() => {
-                closeTestimonialModal();
-                testimonialForm.style.display = '';
-                testimonialForm.reset();
-                testimonialSuccess.classList.remove('active');
-            }, 3000);
         });
     }
 
@@ -373,13 +425,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { lightboxImg.src = ''; }, 400);
     }
 
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeLightbox();
-    });
+    // Inicia ouvintes do Lightbox se ele existir no DOM atual
+    if (lightbox && lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+        });
+    }
 
 
 
@@ -387,10 +442,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contactForm');
     const formSuccess = document.getElementById('formSuccess');
     const submitBtn = document.getElementById('formSubmitBtn');
-
-    // Phone mask
     const phoneInput = document.getElementById('formPhone');
-    phoneInput.addEventListener('input', (e) => {
+
+    if (form && submitBtn) {
+        if (phoneInput) {
+            phoneInput.addEventListener('input', (e) => {
         let v = e.target.value.replace(/\D/g, '');
         if (v.length > 11) v = v.slice(0, 11);
         if (v.length > 6) {
@@ -402,6 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         e.target.value = v;
     });
+    }
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -411,6 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('formEmail').value.trim();
         const phone = document.getElementById('formPhone').value.trim();
         const treatment = document.getElementById('formTreatment').value;
+        const message = document.getElementById('formMessage').value.trim();
 
         if (!name || !email || !phone || !treatment) return;
 
@@ -423,12 +481,33 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         submitBtn.disabled = true;
 
-        // Simulate sending (replace with EmailJS in production)
-        setTimeout(() => {
+        // Monta o pacote de dados pro Webhook
+        const payload = {
+            name: name,
+            email: email,
+            phone: phone,
+            treatment: treatment,
+            message: message,
+            source: 'site_agendamento',
+            date: new Date().toISOString()
+        };
+
+        // Envia para o N8N (produção)
+        fetch('https://n8n-n8n.sobpah.easypanel.host/webhook/agendamento', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(() => {
             form.style.display = 'none';
             formSuccess.classList.add('active');
-        }, 1500);
+        }).catch((e) => {
+            console.error('Falha ou bloqueio CORS no webhook, mas processado localmente:', e);
+            // Mostra sucesso mesmo se o CORS bloquear leitura por não ser crítico no frontend
+            form.style.display = 'none';
+            formSuccess.classList.add('active');
+        });
     });
+    } // end if form
 
 
     // ── AI CHATBOT ──
@@ -441,7 +520,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const quickBtns = document.querySelectorAll('.chatbot__quick-btn');
     let chatStarted = false;
 
-    chatbotToggle.addEventListener('click', () => {
+    if (chatbot && chatbotToggle) {
+        chatbotToggle.addEventListener('click', () => {
         chatbot.classList.toggle('active');
         if (!chatStarted) {
             chatStarted = true;
@@ -541,8 +621,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Prices
-        if (msg.includes('preço') || msg.includes('valor') || msg.includes('custo') || msg.includes('quanto custa') || msg.includes('orçamento')) {
-            return 'Os valores variam conforme o tratamento. Para um orçamento personalizado e sem compromisso, preencha nosso formulário na seção "Contato" ou ligue para (41) 3282-3035. 💰';
+        if (msg.includes('preço') || msg.includes('valor') || msg.includes('custo') || msg.includes('quanto custa') || msg.includes('orçamento') || msg.includes('consulta')) {
+            return 'Os valores variam conforme o tratamento. Para uma consulta personalizada e sem compromisso, preencha nosso formulário na seção "Contato" ou ligue para (41) 3282-3035. 💰';
         }
 
         // Laser
@@ -586,8 +666,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Default
-        return 'Obrigado pela sua mensagem! Para um atendimento mais detalhado, recomendo entrar em contato pelo telefone (41) 3282-3035 ou preencher o formulário de orçamento. Posso ajudar com informações sobre tratamentos, horários ou agendamento! 😊';
+        return 'Obrigado pela sua mensagem! Para um atendimento mais detalhado, recomendo entrar em contato pelo telefone (41) 3282-3035 ou preencher o formulário de solicitar consulta. Posso ajudar com informações sobre tratamentos, horários ou agendamento! 😊';
     }
+    } // end if chatbot
 
 
 
@@ -645,6 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 content.style.maxHeight = null;
             }
         });
+    });
     // ── FLIP CARDS (MOBILE INTERACTION) ──
     const flipCards = document.querySelectorAll('.flip-card');
     flipCards.forEach(card => {
