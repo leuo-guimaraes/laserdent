@@ -1501,6 +1501,9 @@
                 const safeId = t.id; 
                 const date = t.date ? new Date(t.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Data desconhecida';
                 
+                // Extrai as estrelas para o administrador visualizar
+                const stars = '★'.repeat(Math.min(Math.max(parseInt(t.stars) || 5, 1), 5));
+
                 const validStatuses = ['pending', 'approved', 'rejected'];
                 const safeStatus = validStatuses.includes(t.status) ? t.status : 'pending';
                 const statusClass = `testimonial-item__status--${safeStatus}`;
@@ -1553,6 +1556,7 @@
                                 </div>
                             </div>
                             <div>
+                                <span style="color: #ffb400; font-size: 1.1rem; margin-right: 12px; letter-spacing: 1px;">${stars}</span>
                                 <span class="testimonial-item__status ${statusClass}">${statusLabel}</span>
                                 <span class="testimonial-item__date">${date}</span>
                             </div>
