@@ -203,36 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const carouselEl = document.querySelector('.testimonials__carousel');
 
     if (track && dotsContainer && prevBtn && nextBtn && carouselEl) {
-        // Google Reviews Reais Extraídas da Laserdent São José dos Pinhais
-        const defaultTestimonials = [
-            {
-                name: "Bruna Silva",
-                role: "Paciente de Odontopediatria",
-                text: "Um consultório muito humano, com uma equipe espetacular e ótimos profissionais! A Dra Jamile foi super atenciosa com meu filho, passando confiança tanto pra nós pais como pro meu filho! Recomendo 100%.",
-                stars: 5
-            },
-            {
-                name: "Lucas Telles",
-                role: "Paciente de Tratamento a Laser",
-                text: "Melhor tratamento odontológico que já fiz. Fiquei muito confortável e sem dor, além do Dr. Edson explicar tudo pacientemente. O laser é inovador, de alta eficiência, rápido e não agride tanto como brocas normais.",
-                stars: 5
-            },
-            {
-                name: "Fernanda Miqueloti",
-                role: "Paciente de Endodontia",
-                text: "Atendimento de ponta! A Dra. Claudia foi excepcional no meu tratamento de canal. Fiquei impressionada com o foco no cuidado integrativo, uso de Laser e a paciência para me tranquilizar. Indico com segurança.",
-                stars: 5
-            },
-            {
-                name: "Mariana Costa",
-                role: "Paciente de Odontologia Biológica",
-                text: "Ambiente impecável, super limpo e aconchegante. Realizei toda a minha reabilitação focada numa odontologia biológica e recomendo a todos que procuram saúde real, não só estética. Doutores fantásticos!",
-                stars: 5
-            }
-        ];
-
         let currentSlide = 0;
-        let totalSlides = defaultTestimonials.length;
+        let totalSlides = 0;
 
         function renderTestimonials() {
             if(typeof db === 'undefined') return;
@@ -244,7 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     approved.push({ id: doc.id, ...doc.data() });
                 });
 
-                const allTestimonials = [...defaultTestimonials, ...approved];
+                // Se o banco estiver totalmente vazio de aprovados, coloca um temporário para não quebrar a página
+                if (approved.length === 0) {
+                    approved.push({
+                        name: "Equipe Laserdent",
+                        text: "\"Nossos depoimentos reais estão sendo migrados. Seja o primeiro a nos deixar uma avaliação usando o formulário abaixo!\"",
+                        stars: 5
+                    });
+                }
+
+                const allTestimonials = approved;
                 totalSlides = allTestimonials.length;
 
                 track.innerHTML = '';
