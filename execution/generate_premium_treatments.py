@@ -82,7 +82,7 @@ def main():
             <p class="section__desc section__desc--light">Nossos tratamentos são desenhados para integrar tecnologia laser de ponta com um olhar humanizado e biológico.</p>
         </div>
 
-        <h3 class="category-divider reveal-up">Odontologia Integrativa & Biológica</h3>
+        <h3 class="category-divider reveal-up">Odontologia Integrativa</h3>
         <div class="treatment-grid">"""
 
     cards_cat1 = [

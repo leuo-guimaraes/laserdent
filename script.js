@@ -588,7 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Treatments
         if (msg.includes('tratamento') || msg.includes('serviço') || msg.includes('oferecem') || msg.includes('procedimento')) {
-            return 'Oferecemos: ✨ Laserterapia, 🦷 Implantes Dentários, 🫧 Ozonioterapia, 💎 Estética Dental (clareamento, facetas), 👶 Odontopediatria e 🌿 Odontologia Biológica. Qual tratamento te interessa?';
+            return 'Oferecemos: ✨ Laserterapia, 🦷 Implantes Dentários, 🫧 Ozonioterapia, 💎 Estética Dental (clareamento, facetas), 👶 Odontopediatria e 🌿 Odontologia Integrativa. Qual tratamento te interessa?';
         }
 
         // Hours
