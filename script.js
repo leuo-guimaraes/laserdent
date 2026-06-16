@@ -206,61 +206,67 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentSlide = 0;
         let totalSlides = 0;
 
-        function renderTestimonials() {
-            if(typeof db === 'undefined') return;
+        async function renderTestimonials() {
+            if (!supabaseClient) return;
 
-            // Inicia um "escutador" em tempo real no banco de dados. Qualquer alteração externa refletirá instantaneamente!
-            db.collection('testimonials').where('status', '==', 'approved').onSnapshot((snapshot) => {
-                let approved = [];
-                snapshot.forEach(doc => {
-                    approved.push({ id: doc.id, ...doc.data() });
-                });
+            try {
+                // Busca depoimentos aprovados do Supabase
+                const { data: approved, error } = await supabaseClient
+                    .from('testimonials')
+                    .select('*')
+                    .eq('status', 'approved')
+                    .order('date', { ascending: false });
+
+                if (error) throw error;
+
+                let allTestimonials = approved || [];
 
                 // Se o banco estiver totalmente vazio de aprovados, coloca um temporário para não quebrar a página
-                if (approved.length === 0) {
-                    approved.push({
+                if (allTestimonials.length === 0) {
+                    allTestimonials.push({
                         name: "Equipe Laserdent",
                         text: "\"Nossos depoimentos reais estão sendo migrados. Seja o primeiro a nos deixar uma avaliação usando o formulário abaixo!\"",
                         stars: 5
                     });
                 }
 
-                const allTestimonials = approved;
                 totalSlides = allTestimonials.length;
 
                 track.innerHTML = '';
                 dotsContainer.innerHTML = '';
 
-            allTestimonials.forEach((t, i) => {
-                // Sanitize all user-provided fields before rendering
-                const safeName = escapeHtml(t.name || '');
-                const safeText = escapeHtml(t.text || '');
-                const initials = escapeHtml(
-                    (t.name || '').split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()
-                );
-                const stars = '★'.repeat(Math.min(Math.max(parseInt(t.stars) || 5, 1), 5));
-                const card = document.createElement('div');
-                card.className = 'testimonial-card';
-                card.innerHTML = `
-                    <div class="testimonial-card__stars">${stars}</div>
-                    <p class="testimonial-card__text">${safeText}</p>
-                    <div class="testimonial-card__author">
-                        <div class="testimonial-card__avatar">${initials}</div>
-                        <div><strong>${safeName}</strong></div>
-                    </div>
-                `;
-                track.appendChild(card);
+                allTestimonials.forEach((t, i) => {
+                    // Sanitize all user-provided fields before rendering
+                    const safeName = escapeHtml(t.name || '');
+                    const safeText = escapeHtml(t.text || '');
+                    const initials = escapeHtml(
+                        (t.name || '').split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()
+                    );
+                    const stars = '★'.repeat(Math.min(Math.max(parseInt(t.stars) || 5, 1), 5));
+                    const card = document.createElement('div');
+                    card.className = 'testimonial-card';
+                    card.innerHTML = `
+                        <div class="testimonial-card__stars">${stars}</div>
+                        <p class="testimonial-card__text">${safeText}</p>
+                        <div class="testimonial-card__author">
+                            <div class="testimonial-card__avatar">${initials}</div>
+                            <div><strong>${safeName}</strong></div>
+                        </div>
+                    `;
+                    track.appendChild(card);
 
-                const dot = document.createElement('button');
-                dot.classList.add('testimonials__dot');
-                if (i === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => goToSlide(i));
-                dotsContainer.appendChild(dot);
-            });
-            
-            // Corrige se estiver em um slide inválido após o carregamento
-            if (currentSlide >= totalSlides) goToSlide(0);
-            }); // fecha o onSnapshot
+                    const dot = document.createElement('button');
+                    dot.classList.add('testimonials__dot');
+                    if (i === 0) dot.classList.add('active');
+                    dot.addEventListener('click', () => goToSlide(i));
+                    dotsContainer.appendChild(dot);
+                });
+
+                // Corrige se estiver em um slide inválido após o carregamento
+                if (currentSlide >= totalSlides) goToSlide(0);
+            } catch (e) {
+                console.error("Erro ao buscar depoimentos:", e);
+            }
         }
 
         renderTestimonials();
@@ -318,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === testimonialModalOverlay) closeTestimonialModal();
         });
 
-        testimonialForm.addEventListener('submit', (e) => {
+        testimonialForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('testimonialName').value.trim();
             const email = document.getElementById('testimonialEmail').value.trim();
@@ -327,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!name || !email || !text) return;
 
-            if (typeof db === 'undefined') {
+            if (!supabaseClient) {
                 alert("Erro de conexão com o banco de dados.");
                 return;
             }
@@ -347,14 +353,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 date: new Date().toISOString()
             };
 
-            // Submit to Firebase Firestore
-            db.collection('testimonials').add(newTestimonial).then((docRef) => {
+            try {
+                // Insere no Supabase
+                const { data, error } = await supabaseClient
+                    .from('testimonials')
+                    .insert([newTestimonial])
+                    .select();
+
+                if (error) throw error;
+
                 // Monta o payload extra pro N8N
                 const webhookPayload = {
                     ...newTestimonial,
-                    id: docRef.id, // O ID exato gerado para este depoimento no banco
-                    database: "laserdent-b6af0",
-                    collection: "testimonials"
+                    id: data && data[0] ? data[0].id : null,
+                    database: "supabase-laserdent",
+                    table: "testimonials"
                 };
 
                 // Dispara o Webhook do N8N (sem bloquear o fluxo, "fire and forget")
@@ -374,13 +387,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     testimonialForm.reset();
                     testimonialSuccess.classList.remove('active');
                 }, 3000);
-            }).catch(error => {
+            } catch (error) {
                 console.error("Erro ao salvar depoimento: ", error);
                 alert("Ocorreu um erro ao enviar seu depoimento. Tente novamente mais tarde.");
-            }).finally(() => {
+            } finally {
                 btn.innerHTML = originalBtnText;
                 btn.disabled = false;
-            });
+            }
         });
     }
 

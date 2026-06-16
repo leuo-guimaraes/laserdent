@@ -1316,10 +1316,9 @@
 
 
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <script>
 
         // ── Security Utils ──
@@ -1417,18 +1416,18 @@
 
 
         // ── Testimonials Management ──
-        // ── Testimonials Management ──
         let currentFilter = 'all';
         let testimonialsData = [];
 
         async function fetchTestimonials() {
-            if (typeof db === 'undefined') return;
+            if (!supabaseClient) return;
             try {
-                const snapshot = await db.collection('testimonials').get();
-                testimonialsData = [];
-                snapshot.forEach(doc => {
-                    testimonialsData.push({ id: doc.id, ...doc.data() });
-                });
+                const { data, error } = await supabaseClient
+                    .from('testimonials')
+                    .select('*')
+                    .order('date', { ascending: false });
+                if (error) throw error;
+                testimonialsData = data || [];
                 renderDashboard();
             } catch (e) {
                 console.error("Erro ao puxar dados:", e);
@@ -1441,9 +1440,11 @@
             if (!validStatuses.includes(newStatus)) return;
 
             try {
-                await db.collection('testimonials').doc(docId).update({
-                    status: newStatus
-                });
+                const { error } = await supabaseClient
+                    .from('testimonials')
+                    .update({ status: newStatus })
+                    .eq('id', docId);
+                if (error) throw error;
                 // Atualiza localmente para resposta rápida na interface
                 const item = testimonialsData.find(t => t.id === docId);
                 if (item) item.status = newStatus;
@@ -1457,7 +1458,11 @@
         async function deleteTestimonial(docId) {
             if (!confirm('Tem certeza que deseja excluir este depoimento permanentemente?')) return;
             try {
-                await db.collection('testimonials').doc(docId).delete();
+                const { error } = await supabaseClient
+                    .from('testimonials')
+                    .delete()
+                    .eq('id', docId);
+                if (error) throw error;
                 testimonialsData = testimonialsData.filter(t => t.id !== docId);
                 renderDashboard();
             } catch (e) {
