@@ -20,13 +20,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
-
         rel="stylesheet">
 
     <style>
-
         :root {
 
             --primary: #4AADCC;
@@ -1096,7 +1093,6 @@
             }
 
         }
-
     </style>
 
 </head>
@@ -1120,7 +1116,6 @@
                     <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2.5" fill="none" />
 
                     <path d="M24 8 C18 8 14 14 14 22 C14 30 18 38 24 40 C30 38 34 30 34 22 C34 14 30 8 24 8Z"
-
                         fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5" />
 
                     <line x1="12" y1="36" x2="20" y2="24" stroke="#E53935" stroke-width="2.5" stroke-linecap="round" />
@@ -1164,7 +1159,6 @@
                     <label for="loginPass">Senha</label>
 
                     <input type="password" id="loginPass" placeholder="••••••••" required
-
                         autocomplete="current-password">
 
                 </div>
@@ -1220,7 +1214,6 @@
                     <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2.5" fill="none" />
 
                     <path d="M24 8 C18 8 14 14 14 22 C14 30 18 38 24 40 C30 38 34 30 34 22 C34 14 30 8 24 8Z"
-
                         fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5" />
 
                     <line x1="12" y1="36" x2="20" y2="24" stroke="#E53935" stroke-width="2.5" stroke-linecap="round" />
@@ -1324,10 +1317,10 @@
 
 
     <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
 
         // ── Security Utils ──
         function escapeHtml(unsafe) {
@@ -1344,7 +1337,7 @@
 
         const ADMIN_USER = 'admin';
 
-        const ADMIN_PASS = 'laserdent2026';
+        const ADMIN_PASS = 'LaserDent@2026';
 
 
 
@@ -1424,7 +1417,7 @@
 
 
         // ── Testimonials Management ──
-// ── Testimonials Management ──
+        // ── Testimonials Management ──
         let currentFilter = 'all';
         let testimonialsData = [];
 
@@ -1446,7 +1439,7 @@
         async function updateStatus(docId, newStatus) {
             const validStatuses = ['pending', 'approved', 'rejected'];
             if (!validStatuses.includes(newStatus)) return;
-            
+
             try {
                 await db.collection('testimonials').doc(docId).update({
                     status: newStatus
@@ -1462,7 +1455,7 @@
         }
 
         async function deleteTestimonial(docId) {
-            if(!confirm('Tem certeza que deseja excluir este depoimento permanentemente?')) return;
+            if (!confirm('Tem certeza que deseja excluir este depoimento permanentemente?')) return;
             try {
                 await db.collection('testimonials').doc(docId).delete();
                 testimonialsData = testimonialsData.filter(t => t.id !== docId);
@@ -1474,22 +1467,22 @@
         }
 
         function renderDashboard() {
-            const list     = testimonialsData;
-            const pending  = list.filter(t => t.status === 'pending').length;
+            const list = testimonialsData;
+            const pending = list.filter(t => t.status === 'pending').length;
             const approved = list.filter(t => t.status === 'approved').length;
             const rejected = list.filter(t => t.status === 'rejected').length;
 
-            document.getElementById('statPending').textContent  = pending;
+            document.getElementById('statPending').textContent = pending;
             document.getElementById('statApproved').textContent = approved;
             document.getElementById('statRejected').textContent = rejected;
 
-            const filtered  = currentFilter === 'all' ? list : list.filter(t => t.status === currentFilter);
+            const filtered = currentFilter === 'all' ? list : list.filter(t => t.status === currentFilter);
             const container = document.getElementById('testimonialList');
 
             if (filtered.length === 0) {
                 const label = currentFilter === 'all' ? 'enviado'
-                            : currentFilter === 'pending'  ? 'pendente'
-                            : currentFilter === 'approved' ? 'aprovado' : 'rejeitado';
+                    : currentFilter === 'pending' ? 'pendente'
+                        : currentFilter === 'approved' ? 'aprovado' : 'rejeitado';
                 container.innerHTML = `
                     <div class="empty-state">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1502,17 +1495,17 @@
             // Ordena com os mais recentes primeiro
             container.innerHTML = filtered.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0)).map(t => {
                 // SECURITY: Sanitize ALL user-provided data before DOM insertion
-                const safeName   = escapeHtml(t.name  || '');
-                const safeEmail  = escapeHtml(t.email || '');
-                const safeText   = escapeHtml(t.text  || '');
-                const initials   = escapeHtml(
+                const safeName = escapeHtml(t.name || '');
+                const safeEmail = escapeHtml(t.email || '');
+                const safeText = escapeHtml(t.text || '');
+                const initials = escapeHtml(
                     (t.name || '').split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()
                 );
-                
+
                 // Em vez de parseInt (que quebra ID do Firebase), passamos a string de ID validada apenas internamente
-                const safeId = t.id; 
+                const safeId = t.id;
                 const date = t.date ? new Date(t.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Data desconhecida';
-                
+
                 // Extrai as estrelas para o administrador visualizar
                 const stars = '★'.repeat(Math.min(Math.max(parseInt(t.stars) || 5, 1), 5));
 
@@ -1580,8 +1573,8 @@
             }).join('');
         }
 
-        
-// ── Filter Tabs ──
+
+        // ── Filter Tabs ──
 
         document.querySelectorAll('.filter-tab').forEach(tab => {
 
