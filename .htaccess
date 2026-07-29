@@ -1,0 +1,15 @@
+# Habilitar reescrita de URL amigável (Clean URLs)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Redirecionar acessos diretos com .html para a URL limpa (ex: /tratamentos.html -> /tratamentos)
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # Se o arquivo não existir como diretório nem como arquivo direto, tenta adicionar .html internamente
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>

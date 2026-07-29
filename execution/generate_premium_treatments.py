@@ -39,7 +39,8 @@ def main():
         "frenectomia": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.5 3.5 6 1.5 1.5 1 3 1 3s-1 1-1 3.5c0 1.38.5 2 1 3-1.072 2.143-.224 4.054-2 6-2-2-3-4-3-6 0-1.38-.5-2-1-3z"></path></svg>',
         "implantes": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>',
         "myobrace": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>',
-        "estetica": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>'
+        "estetica": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+        "fluorescencia": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
     }
 
     # We will build the new HTML string
@@ -48,25 +49,25 @@ def main():
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta content="Explore as especialidades da Clínica LASERdent: laserterapia, ozonioterapia, odontologia integrativa, implantes e muito mais." name="description"/>
+    <meta content="Explore as especialidades da Clínica LASERdent: laserterapia, limpeza airflow por fluorescência, ozonioterapia, odontologia integrativa, implantes e muito mais." name="description"/>
     <title>Especialidades | Clínica LASERdent</title>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="styles.css" rel="stylesheet"/>
 </head>
 <body>
 
 <header class="header header--scrolled" id="header">
     <div class="header__container">
-        <a class="header__logo" href="index.html">
-            <img alt="Clínica LASERdent" class="header__logo-img" src="Fotos/logosemfundo.png"/>
+        <a class="header__logo" href="/">
+            <img src="Fotos/LOGO LASERDENT PNG SF.png" alt="LASERdent Logo">
         </a>
-        <nav class="header__nav" id="mainNav">
-            <a class="nav-link" href="index.html">Início</a>
-            <a class="nav-link" href="index.html#sobre">Sobre</a>
-            <a class="nav-link active" href="tratamentos.html">Tratamentos</a>
-            <a class="nav-link" href="tecnologia.html">Tecnologia</a>
+        <nav class="nav-links">
+            <a class="nav-link" href="/">Início</a>
+            <a class="nav-link" href="/#sobre">Sobre</a>
+            <a class="nav-link active" href="/tratamentos">Tratamentos</a>
+            <a class="nav-link" href="/tecnologia">Tecnologia</a>
             <a class="nav-link" href="index.html#depoimentos">Depoimentos</a>
             <a class="nav-link" href="#contato">Contato</a>
         </nav>
@@ -79,10 +80,10 @@ def main():
         <div class="section__header reveal-up">
             <span class="section__tag section__tag--light">Especialidades</span>
             <h2 class="section__title section__title--light">Onde o <span class="text-gradient">Sentimento</span> encontra a <span class="text-gradient">Razão</span></h2>
-            <p class="section__desc section__desc--light">Nossos tratamentos são desenhados para integrar tecnologia laser de ponta com um olhar humanizado e biológico.</p>
+            <p class="section__desc section__desc--light">Nossos tratamentos são desenhados para integrar tecnologia laser e biotecnologia de ponta com um olhar humanizado e biológico.</p>
         </div>
 
-        <h3 class="category-divider reveal-up">Odontologia Integrativa</h3>
+        <h3 class="category-divider reveal-up">Odontologia Integrativa & Diagnóstico Biológico</h3>
         <div class="treatment-grid">"""
 
     cards_cat1 = [
@@ -94,10 +95,11 @@ def main():
     html_mid1 = """
         </div>
 
-        <h3 class="category-divider reveal-up">Tecnologia Laser de Alta Precisão</h3>
+        <h3 class="category-divider reveal-up">Tecnologia Laser & Biofilme de Alta Precisão</h3>
         <div class="treatment-grid">"""
 
     cards_cat2 = [
+        get_card_html(icons["fluorescencia"], "Limpeza Airflow por Fluorescência", "Higienização revolucionária onde a luz de fluorescência revela com precisão bacteriana o biofilme dental invisível a olho nu. O sistema EMS Airflow remove 100% da placa com jato morno e suave, garantindo limpeza guiada sem agredir o esmalte.", ["Biofilme Guiado", "Luz Fluorescente", "Zero Dor"]),
         get_card_html(icons["canal"], "Canal a Laser", "O medo do canal ficou no passado. O laser elimina focos infecciosos com mínimo trauma e profundidade inalcançável por métodos comuns. Conforto e segurança.", ["Dor Zero", "Desinfecção Profunda"]),
         get_card_html(icons["ronco"], "Melhora do Ronco", "Tratamento inovador e indolor que utiliza laser para fortalecer os tecidos do palato. Reduz significativamente a apneia e melhora a qualidade do seu sono.", ["Sono de Qualidade", "Sem Cirurgia"]),
         get_card_html(icons["frenectomia"], "Frenectomia a Laser", "Ideal para 'língua presa' em bebês e crianças. O laser substitui o bisturi, realizando um corte preciso sem sangramento e sem necessidade de pontos.", ["Sem Pontos", "Recuperação Rápida"])
@@ -111,7 +113,7 @@ def main():
 
     cards_cat3 = [
         get_card_html(icons["implantes"], "Implantes & Próteses", "Planejamento digital 3D para devolver a força da mastigação e o prazer de sorrir. Resultados indistinguíveis de dentes naturais com precisão milimétrica.", ["Precisão Digital", "Naturalidade"]),
-        get_card_html(icons["myobrace"], "Ortodontia Myobrace", "Focado nas causas do desalinhamento dental: respiração e postura da língua. Guia o crescimento facial de forma natural, evitando aparelhos fixos fixos no futuro.", ["Preventivo", "Sem Braquetes"]),
+        get_card_html(icons["myobrace"], "Ortodontia Myobrace", "Focado nas causas do desalinhamento dental: respiração e postura da língua. Guia o crescimento facial de forma natural, evitando aparelhos fixos no futuro.", ["Preventivo", "Sem Braquetes"]),
         get_card_html(icons["estetica"], "Estética & Lifting", "Harmonização facial realçando sua beleza natural. O laser estimula o seu próprio colágeno de dentro para fora, garantindo rejuvenescimento sutil e elegante.", ["Lifting sem Cortes", "Beleza Natural"])
     ]
 

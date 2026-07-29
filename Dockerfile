@@ -2,6 +2,7 @@
 FROM nginx:alpine
 
 # Copy site contents to the default nginx public directory
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY . /usr/share/nginx/html
 
 # Expose port 80

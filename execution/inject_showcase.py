@@ -33,7 +33,7 @@ def main():
                     </div>
                     <h3 class="showcase-card__title">Odontologia Integrativa</h3>
                     <p class="showcase-card__description">Uma visão sistêmica da saúde bucal, unindo técnica odontológica e equilíbrio biológico.</p>
-                    <a href="tratamentos.html" class="showcase-card__link">
+                    <a href="/tratamentos" class="showcase-card__link">
                         Ver detalhes
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
@@ -51,7 +51,7 @@ def main():
                     </div>
                     <h3 class="showcase-card__title">Implantes & Próteses</h3>
                     <p class="showcase-card__description">Recuperação funcional e estética com planejamento digital e precisão milimétrica.</p>
-                    <a href="tratamentos.html" class="showcase-card__link">
+                    <a href="/tratamentos" class="showcase-card__link">
                         Ver detalhes
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
@@ -69,7 +69,7 @@ def main():
                     </div>
                     <h3 class="showcase-card__title">Canal a Laser</h3>
                     <p class="showcase-card__description">Desinfecção profunda e maior conforto pós-operatório com tecnologia laser e ozônio.</p>
-                    <a href="tratamentos.html" class="showcase-card__link">
+                    <a href="/tratamentos" class="showcase-card__link">
                         Ver detalhes
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
@@ -87,7 +87,7 @@ def main():
                     </div>
                     <h3 class="showcase-card__title">Ortodontia Myobrace</h3>
                     <p class="showcase-card__description">Tratamento preventivo e interceptativo sem braquetes, focado no desenvolvimento facial.</p>
-                    <a href="tratamentos.html" class="showcase-card__link">
+                    <a href="/tratamentos" class="showcase-card__link">
                         Ver detalhes
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
@@ -105,7 +105,7 @@ def main():
                     </div>
                     <h3 class="showcase-card__title">Ozonioterapia</h3>
                     <p class="showcase-card__description">Terapia natural e potente com ação antimicrobiana e anti-inflamatória em diversos protocolos.</p>
-                    <a href="tratamentos.html" class="showcase-card__link">
+                    <a href="/tratamentos" class="showcase-card__link">
                         Ver detalhes
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
@@ -123,7 +123,7 @@ def main():
                     </div>
                     <h3 class="showcase-card__title">Estética & Harmonia</h3>
                     <p class="showcase-card__description">Harmonização facial e estética dental para realçar sua beleza natural com sutileza.</p>
-                    <a href="tratamentos.html" class="showcase-card__link">
+                    <a href="/tratamentos" class="showcase-card__link">
                         Ver detalhes
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
@@ -133,7 +133,7 @@ def main():
         </div>
 
         <div class="section__footer reveal-up" style="text-align: center; margin-top: 60px;">
-            <a href="tratamentos.html" class="btn btn--primary">Ver Todos os Tratamentos</a>
+            <a href="/tratamentos" class="btn btn--primary">Ver Todos os Tratamentos</a>
         </div>
     </div>
 </section>
