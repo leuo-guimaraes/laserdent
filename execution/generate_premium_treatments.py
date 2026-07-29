@@ -61,19 +61,45 @@ def main():
 <header class="header header--scrolled" id="header">
     <div class="header__container">
         <a class="header__logo" href="/">
-            <img src="Fotos/LOGO LASERDENT PNG SF.png" alt="LASERdent Logo">
+            <img alt="Clínica LASERdent" class="header__logo-img" src="Fotos/logosemfundo.png"/>
         </a>
-        <nav class="nav-links">
+        <nav class="header__nav" id="mainNav">
             <a class="nav-link" href="/">Início</a>
             <a class="nav-link" href="/#sobre">Sobre</a>
             <a class="nav-link active" href="/tratamentos">Tratamentos</a>
             <a class="nav-link" href="/tecnologia">Tecnologia</a>
-            <a class="nav-link" href="index.html#depoimentos">Depoimentos</a>
+            <a class="nav-link" href="/#depoimentos">Depoimentos</a>
             <a class="nav-link" href="#contato">Contato</a>
         </nav>
-        <a class="header__cta btn btn--primary" href="#contato">Agendar Consulta</a>
+        <a class="header__cta btn btn--primary" href="#contato">
+            <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18">
+                <rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
+                <line x1="16" x2="16" y1="2" y2="6"></line>
+                <line x1="8" x2="8" y1="2" y2="6"></line>
+                <line x1="3" x2="21" y1="10" y2="10"></line>
+            </svg>
+            Agendar Consulta
+        </a>
+        <button aria-label="Abrir menu" class="header__menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </header>
+
+<!-- Mobile Nav Overlay -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <nav class="mobile-nav">
+        <a class="mobile-nav__link" href="/">Início</a>
+        <a class="mobile-nav__link" href="/#sobre">Sobre</a>
+        <a class="mobile-nav__link" href="/tratamentos">Tratamentos</a>
+        <a class="mobile-nav__link" href="/tecnologia">Tecnologia</a>
+        <a class="mobile-nav__link" href="/#depoimentos">Depoimentos</a>
+        <a class="mobile-nav__link" href="#contato">Contato</a>
+        <a class="btn btn--primary mobile-nav__cta" href="#contato">Agendar Consulta</a>
+    </nav>
+</div>
 
 <section class="section section--dark" style="padding-top: 150px;">
     <div class="container">
