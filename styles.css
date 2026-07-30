@@ -3199,6 +3199,17 @@ textarea {
     color: var(--primary-light);
 }
 
+.flip-card-back__hint {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: var(--primary-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    text-align: center;
+}
+
 @media (max-width: 991px) {
     .treatment-grid {
         grid-template-columns: repeat(2, 1fr);

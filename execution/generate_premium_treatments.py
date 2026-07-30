@@ -16,7 +16,7 @@ def main():
                             {icon_svg}
                         </div>
                         <h3 class="flip-card-front__title">{title}</h3>
-                        <span class="flip-card-front__hint">Para saber mais passe o mouse</span>
+                        <span class="flip-card-front__hint">Clique para saber mais</span>
                     </div>
                     <!-- BACK -->
                     <div class="flip-card-back">
@@ -25,6 +25,7 @@ def main():
                         <div class="flip-card-back__badges">
                             {badges_html}
                         </div>
+                        <span class="flip-card-back__hint">Clique para voltar</span>
                     </div>
                 </div>
             </div>'''
