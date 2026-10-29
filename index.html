@@ -1116,6 +1116,9 @@
 
                         </div>
 
+                        <label style="display:flex;gap:10px;align-items:flex-start;font-size:13px;margin-bottom:16px"><input id="formConsent" type="checkbox" required style="width:auto;margin-top:4px">Autorizo a Laserdent a usar os dados informados para entrar em contato sobre minha solicitação.</label>
+                        <div hidden aria-hidden="true"><label>Website<input id="formWebsite" type="text" tabindex="-1" autocomplete="off"></label></div>
+                        <p id="formError" role="alert" hidden style="color:#b91c1c;margin-bottom:12px"></p>
                         <button class="btn btn--primary btn--full" id="formSubmitBtn" type="submit">
 
                             <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"
@@ -1367,7 +1370,7 @@
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js?v=2"></script>
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 
 </body>
 

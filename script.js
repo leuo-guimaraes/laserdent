@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Busca depoimentos aprovados do Supabase
                 const { data: approved, error } = await supabaseClient
                     .from('testimonials')
-                    .select('*')
+                    .select('id,name,text,stars,date,status')
                     .eq('status', 'approved')
                     .order('date', { ascending: false });
 
@@ -355,27 +355,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Insere no Supabase
-                const { data, error } = await supabaseClient
+                const { error } = await supabaseClient
                     .from('testimonials')
-                    .insert([newTestimonial])
-                    .select();
+                    .insert([newTestimonial]);
 
                 if (error) throw error;
 
-                // Monta o payload extra pro N8N
-                const webhookPayload = {
-                    ...newTestimonial,
-                    id: data && data[0] ? data[0].id : null,
-                    database: "supabase-laserdent",
-                    table: "testimonials"
-                };
-
-                // Dispara o Webhook do N8N (sem bloquear o fluxo, "fire and forget")
-                fetch('https://n8n-n8n.sobpah.easypanel.host/webhook/depoimentos', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(webhookPayload)
-                }).catch(e => console.log('Aviso: webhooks podem ter bloqueado CORS, mas o request foi enviado.', e));
+                // Moderação centralizada no sistema.
+                // A aprovação é realizada pela equipe no sistema Laserdent.
 
                 // Show success
                 testimonialForm.style.display = 'none';
@@ -454,7 +441,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     }
 
-    form.addEventListener('submit', (e) => {
+    let leadSubmissionId = crypto.randomUUID();
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Simple validation
@@ -464,7 +452,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const treatment = document.getElementById('formTreatment').value;
         const message = document.getElementById('formMessage').value.trim();
 
-        if (!name || !email || !phone || !treatment) return;
+        const consentimento = document.getElementById('formConsent')?.checked === true;
+        if (!name || !email || !phone || !treatment || !consentimento) return;
+        const originalButton = submitBtn.innerHTML;
 
         // Animate button
         submitBtn.innerHTML = `
@@ -475,31 +465,42 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         submitBtn.disabled = true;
 
-        // Monta o pacote de dados pro Webhook
+        // Preserva a atribuição da campanha.
+        const params = new URLSearchParams(location.search);
+        let tracking = {};
+        try {
+            const current = Object.fromEntries(['utm_source', 'utm_medium', 'utm_campaign'].map(k => [k, (params.get(k) || '').slice(0, 200)]));
+            if (Object.values(current).some(Boolean)) sessionStorage.setItem('laserdent_campaign', JSON.stringify(current));
+            tracking = JSON.parse(sessionStorage.getItem('laserdent_campaign') || '{}');
+        } catch { /* O formulário funciona mesmo com armazenamento bloqueado. */ }
         const payload = {
-            name: name,
+            nome: name,
             email: email,
-            phone: phone,
-            treatment: treatment,
-            message: message,
-            source: 'site_agendamento',
-            date: new Date().toISOString()
+            telefone: phone,
+            interesse: treatment,
+            mensagem: message,
+            consentimento,
+            website: document.getElementById('formWebsite')?.value || '',
+            submission_id: leadSubmissionId,
+            ...tracking
         };
 
-        // Envia para o N8N (produção)
-        fetch('https://n8n-n8n.sobpah.easypanel.host/webhook/agendamento', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        }).then(() => {
+        // Confirma o envio somente após persistir o lead.
+        try {
+            if (!supabaseClient) throw new Error('Conexão indisponível. Tente novamente.');
+            const { error } = await supabaseClient.functions.invoke('website-lead', { body: payload });
+            if (error) {
+                let message = 'Não foi possível enviar. Tente novamente ou ligue para a clínica.';
+                try { message = (await error.context.json()).error || message; } catch {}
+                throw new Error(message);
+            }
+            leadSubmissionId = crypto.randomUUID();
             form.style.display = 'none';
             formSuccess.classList.add('active');
-        }).catch((e) => {
-            console.error('Falha ou bloqueio CORS no webhook, mas processado localmente:', e);
-            // Mostra sucesso mesmo se o CORS bloquear leitura por não ser crítico no frontend
-            form.style.display = 'none';
-            formSuccess.classList.add('active');
-        });
+        } catch (error) {
+            const alert = document.getElementById('formError');
+            if (alert) { alert.textContent = error.message; alert.hidden = false; }
+        } finally { submitBtn.disabled = false; submitBtn.innerHTML = originalButton; }
     });
     } // end if form
 
