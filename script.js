@@ -735,3 +735,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+// Shared legal links also cover the treatment pages without replacing their content.
+document.addEventListener('DOMContentLoaded', () => {
+    const footer = document.querySelector('.footer__bottom');
+    if (!footer || footer.querySelector('[data-legal-links]')) return;
+    const nav = document.createElement('nav');
+    nav.dataset.legalLinks = '';
+    nav.setAttribute('aria-label', 'Privacidade');
+    nav.style.cssText = 'display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:center;font-size:13px';
+    for (const [href, label] of [['/privacidade', 'Privacidade'], ['/cookies', 'Cookies'], ['/exclusao-de-dados', 'Exclusão de dados']]) {
+        const link = document.createElement('a'); link.href = href; link.textContent = label; nav.append(link);
+    }
+    footer.append(nav);
+});
