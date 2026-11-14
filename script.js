@@ -735,6 +735,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const social = document.querySelector('.footer__social');
+    if (!social) return;
+
+    const instagram = document.createElement('a');
+    instagram.className = 'footer__social-link';
+    instagram.href = 'https://www.instagram.com/laserdentodontologia/';
+    instagram.target = '_blank';
+    instagram.rel = 'noopener noreferrer';
+    instagram.setAttribute('aria-label', 'Instagram da Laserdent');
+    instagram.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+    </svg>`;
+    social.append(instagram);
+});
+
 // Shared legal links also cover the treatment pages without replacing their content.
 document.addEventListener('DOMContentLoaded', () => {
     const footer = document.querySelector('.footer__bottom');
