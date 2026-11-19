@@ -14,7 +14,7 @@
             <header><div><strong>Sol · Laserdent</strong><small>Assistente de IA</small></div><button type="button" data-action="close" aria-label="Fechar atendimento">×</button></header>
             <div class="clinic-assistant-start"><p>Olá, sou a Sol! ☀️ Estou aqui para tirar suas dúvidas sobre a Laserdent, apresentar nossos dentistas e explicar os procedimentos em termos gerais. Quer agendar? Eu ajudo você a falar com a recepção pelo WhatsApp.</p>
                 <p>Para cuidar da sua privacidade, faça perguntas gerais e evite compartilhar dados pessoais, sintomas ou exames.</p>
-                <p>Ao iniciar, você autoriza o processamento das perguntas pela OpenRouter e pelo provedor de IA. As mensagens ficam disponíveis enquanto esta página estiver aberta.</p>
+                <p>Ao iniciar nosso chat, essas mensagens ficarão disponíveis enquanto esta página estiver aberta.</p>
                 <a href="/privacidade" target="_blank" rel="noopener">Política de privacidade</a>
                 <button type="button" data-action="start">Concordo e iniciar</button></div>
             <div class="clinic-assistant-conversation" hidden>
