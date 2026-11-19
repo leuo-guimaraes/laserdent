@@ -4,6 +4,12 @@
    ═══════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
+    const analytics = document.createElement('script');
+    analytics.src = '/analytics-consent.js';
+    document.head.append(analytics);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
 
     // ── HEADER SCROLL EFFECT ──
     const header = document.getElementById('header');

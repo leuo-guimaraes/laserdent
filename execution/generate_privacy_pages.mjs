@@ -15,6 +15,7 @@ const pages = [
     <li><strong>Integração com a Meta:</strong> quando um administrador autoriza a conexão, o sistema trata a identificação da conta profissional, nome de usuário, autorização de acesso e os conteúdos e informações técnicas necessários à publicação e acompanhamento das postagens.</li></ul>
     <p>Evite enviar exames, documentos ou detalhes de saúde nos campos livres do site. Os formulários de contato não substituem o prontuário nem a avaliação profissional. O tratamento de dados clínicos exige informações e medidas próprias do atendimento.</p>
     <h2>3. Para que usamos os dados</h2>
+    <p>Após sua autorização no aviso de cookies, usamos o Google Analytics para medir acessos, páginas visitadas, origem das visitas e características gerais de navegação, como dispositivo e região. Os relatórios agregados ajudam a acompanhar o desempenho do site. Você pode rever a escolha pelo botão Preferências de cookies.</p>
     <p>Usamos os dados para responder às solicitações, organizar contatos e agendamentos, moderar depoimentos, identificar a origem de contatos e operar os recursos autorizados de marketing. A conexão com Instagram permite preparar e publicar conteúdo aprovado pela equipe, dentro das permissões concedidas.</p>
     <p>O tratamento deve observar a base legal adequada à finalidade: consentimento, quando solicitado; procedimentos relacionados a uma contratação a pedido do titular; cumprimento de obrigações legais; e legítimo interesse para finalidades compatíveis, mediante avaliação dos direitos dos titulares. Quando houver dados sensíveis, aplicam-se as hipóteses e os cuidados específicos previstos na LGPD.</p>
     <h2>4. Serviços utilizados e compartilhamento</h2>
@@ -38,10 +39,10 @@ const pages = [
     <ul><li><strong>Origem de campanhas:</strong> o registro <code>laserdent_campaign</code>, em sessionStorage, guarda parâmetros da URL para associar o formulário à origem do contato. Em geral, o navegador elimina esse registro ao encerrar a sessão da aba. Isso não é um cookie de publicidade de terceiros.</li>
     <li><strong>Infraestrutura e segurança:</strong> hospedagem e serviços de suporte podem processar informações técnicas para entregar páginas e proteger as requisições.</li>
     <li><strong>Recursos externos:</strong> o mapa incorporado do Google, fontes do Google e bibliotecas por CDN fazem conexões com seus fornecedores. Eles podem receber IP, informações do navegador e, conforme suas próprias configurações, usar cookies ou outros identificadores. O mapa é carregado automaticamente quando o navegador inicia o recurso.</li></ul>
-    <p>A versão atual do código do site não inclui Google Analytics, Google Ads tag ou Meta Pixel. Esta informação precisará ser revista se forem adicionados mecanismos de medição ou publicidade.</p>
+    <p>O Google Analytics 4, identificado por <code>G-FKD90KENST</code>, mede visitas e interações após você aceitar a medição no aviso do site. Ele pode utilizar cookies como <code>_ga</code> e <code>_ga_FKD90KENST</code>, cuja duração depende das configurações do Google Analytics. A escolha de aceitar ou recusar fica no registro local <code>laserdent_analytics_consent_v1</code> por até 180 dias. O site mantém os sinais de publicidade e personalização negados nessa integração.</p>
     <h2>Como controlar</h2>
     <p>Você pode consultar, bloquear e excluir cookies e dados de sites nas configurações de privacidade do seu navegador. O bloqueio de determinados serviços pode afetar o mapa e outras funcionalidades externas. Para remover o registro de campanha, encerre a sessão da aba ou limpe os dados do site no navegador.</p>
-    <p>Esta página é informativa e não funciona como um painel de consentimento. Caso sejam implantadas tecnologias opcionais que dependam de consentimento, elas deverão oferecer escolhas e meios de revogação compatíveis antes de serem ativadas.</p>
+    <p>Use o botão <strong>Preferências de cookies</strong>, disponível no site, para aceitar ou recusar o Analytics. Ao recusar, o carregamento inicial da tag fica bloqueado. Ao revogar uma escolha anterior, a medição é desativada e os cookies do Analytics acessíveis ao site são removidos. O período de medição começa após a autorização.</p>
     <h2>Serviços externos e contato</h2>
     <p>Consulte também a <a href="https://policies.google.com/privacy">Política de Privacidade do Google</a> e as configurações do navegador. Para dúvidas sobre o uso de dados pela clínica, escreva para ${contact} e consulte nossa <a href="/privacidade">Política de Privacidade</a>.</p>`],
   ['exclusao-de-dados', 'Exclusão de dados', 'Como solicitar a exclusão de dados e revogar a conexão do Instagram com a LASERdent.', `
@@ -60,9 +61,10 @@ for (const [slug, title, description, content] of pages) {
   const html = `<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title} | LASERdent</title><meta name="description" content="${description}"><link rel="canonical" href="https://www.laserdent.com.br/${slug}">
-<link rel="icon" href="/Fotos/logosemfundo.png"><link rel="stylesheet" href="/legal.css"></head>
+<link rel="icon" href="/Fotos/logosemfundo.png"><link rel="stylesheet" href="/legal.css"><script defer src="/analytics-consent.js"></script></head>
 <body><a class="skip-link" href="#conteudo">Ir para o conteúdo</a><header><a href="/" aria-label="LASERdent — Página inicial"><img src="/Fotos/logosemfundo.png" alt="LASERdent" width="140" height="100"></a><a href="/">Voltar ao site</a></header>
 <main id="conteudo"><h1>${title}</h1>${content}</main><footer><nav aria-label="Privacidade"><a href="/privacidade">Privacidade</a><a href="/cookies">Cookies</a><a href="/exclusao-de-dados">Exclusão de dados</a></nav><p>© 2026 Clínica LASERdent</p></footer></body></html>`;
-  writeFileSync(resolve(root, `${slug}.html`), html, 'utf8');
+  const currentHtml = html.replaceAll('2026-11-09', '2026-11-19').replaceAll('9 de novembro de 2026', '19 de novembro de 2026');
+  writeFileSync(resolve(root, `${slug}.html`), currentHtml, 'utf8');
 }
 console.log('Páginas de privacidade, cookies e exclusão geradas.');
