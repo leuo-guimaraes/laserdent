@@ -12,8 +12,9 @@
         <button class="clinic-assistant-launcher" type="button" aria-label="Conversar com Sol, assistente de IA da Laserdent" aria-controls="clinic-assistant-panel" aria-expanded="false"><img src="/Fotos/sol-assistente.png" alt="" width="96" height="96"></button>
         <section class="clinic-assistant-panel" id="clinic-assistant-panel" aria-label="Atendimento virtual da Laserdent" hidden>
             <header><div><strong>Sol · Laserdent</strong><small>Assistente de IA</small></div><button type="button" data-action="close" aria-label="Fechar atendimento">×</button></header>
-            <div class="clinic-assistant-start"><p>Olá! Sou a Sol. Posso apresentar a equipe, explicar procedimentos em termos gerais e ajudar você a falar com a recepção.</p>
-                <p>Envie apenas perguntas gerais, sem dados pessoais, sintomas ou exames. Ao iniciar, você autoriza o processamento das perguntas por OpenRouter e pelo provedor de IA. A conversa fica aberta apenas nesta página.</p>
+            <div class="clinic-assistant-start"><p>Olá, sou a Sol! ☀️ Estou aqui para tirar suas dúvidas sobre a Laserdent, apresentar nossos dentistas e explicar os procedimentos em termos gerais. Quer agendar? Eu ajudo você a falar com a recepção pelo WhatsApp.</p>
+                <p>Para cuidar da sua privacidade, faça perguntas gerais e evite compartilhar dados pessoais, sintomas ou exames.</p>
+                <p>Ao iniciar, você autoriza o processamento das perguntas pela OpenRouter e pelo provedor de IA. As mensagens ficam disponíveis enquanto esta página estiver aberta.</p>
                 <a href="/privacidade" target="_blank" rel="noopener">Política de privacidade</a>
                 <button type="button" data-action="start">Concordo e iniciar</button></div>
             <div class="clinic-assistant-conversation" hidden>
