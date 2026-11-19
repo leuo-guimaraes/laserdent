@@ -40,6 +40,12 @@
         if (!greeting.hidden) greetingTimer = setTimeout(dismissGreeting, 10000);
     }
     const avatar = launcher.querySelector('img');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateAvatarMotion = () => {
+        avatar.src = reducedMotion.matches ? '/Fotos/sol-ola.png' : '/Fotos/sol-acenando.gif';
+    };
+    updateAvatarMotion();
+    reducedMotion.addEventListener('change', updateAvatarMotion);
     if (avatar.complete) scheduleGreeting();
     else {
         avatar.addEventListener('load', scheduleGreeting, { once: true });
