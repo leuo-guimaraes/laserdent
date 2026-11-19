@@ -15,11 +15,12 @@
     const banner = document.createElement('section');
     banner.className = 'analytics-consent';
     banner.setAttribute('aria-label', 'Preferências de cookies');
-    banner.innerHTML = `<div><strong>Podemos medir os acessos ao site?</strong>
-        <p>Com sua autorização, usamos o Google Analytics para entender as visitas e melhorar o site.
-        Você pode rever sua escolha a qualquer momento. <a href="/cookies">Política de cookies</a></p></div>
-        <div class="analytics-consent-actions"><button type="button" data-choice="denied">Recusar Analytics</button>
-        <button type="button" data-choice="granted">Aceitar Analytics</button></div>`;
+    banner.innerHTML = `<div class="analytics-consent-copy">
+        <strong><span aria-hidden="true">🍪</span> Aviso de cookies</strong>
+        <p>Usamos cookies de análise para entender as visitas e melhorar sua experiência.
+        A escolha é sua. <a href="/cookies">Saiba mais na política de cookies.</a></p></div>
+        <div class="analytics-consent-actions"><button type="button" data-choice="denied">Recusar</button>
+        <button type="button" data-choice="granted">Aceitar</button></div>`;
     document.body.append(banner);
 
     const preferences = document.createElement('button');
