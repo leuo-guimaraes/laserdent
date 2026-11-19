@@ -2,6 +2,7 @@ export const whatsappUrl = 'https://wa.me/5541992513035?text=Ol%C3%A1!%20Gostari
 
 // Only reviewed clinic information is returned to visitors. The model selects a topic.
 export const answers = {
+    sol: 'Sou a Sol, assistente de IA da Laserdent. Posso apresentar a equipe, explicar procedimentos em termos gerais e encaminhar você à recepção para agendar uma consulta.',
     agendamento: 'Para solicitar uma consulta, fale com a recepção pelo botão abaixo. A equipe confirma os horários disponíveis e os dados necessários diretamente no WhatsApp.',
     equipe: 'Nossa equipe tem Dr. Edson Carlos Nagib, Dra. Claudia Cristina Meinicke, Dra. Jamille Nagib e Dra. Laila Nagib, cirurgiões-dentistas. Solange de Fátima Telma Nossol atua como auxiliar de cirurgião-dentista. Sobre disponibilidade de cada profissional, consulte a recepção.',
     edson: 'Dr. Edson Carlos Nagib é cirurgião-dentista e mestre em Bio-Engenharia, com atuação em laser e odontologia minimamente invasiva. A recepção pode informar sua disponibilidade para consulta.',
@@ -42,6 +43,7 @@ export function protectedReply(message) {
 }
 
 const topicWords = [
+    ['sol', /quem e (a )?sol|seu nome|quem e voce|voce e (uma? )?(pessoa|robo|ia)/],
     ['agendamento', /agend|marcar|consulta|horario disponivel/],
     ['edson', /edson/], ['claudia', /claudia|meinicke/], ['jamille', /jamille/], ['laila', /laila/],
     ['equipe', /dentistas|profissionais|equipe|quem atende/],

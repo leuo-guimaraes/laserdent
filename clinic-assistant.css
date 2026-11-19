@@ -1,9 +1,54 @@
 #clinic-assistant { font: 14px/1.5 'Outfit', Arial, sans-serif; color: #092235; }
 #clinic-assistant * { box-sizing: border-box; }
 #clinic-assistant [hidden] { display: none !important; }
-.clinic-assistant-launcher { position: fixed; z-index: 9000; right: 22px; bottom: 22px; display: flex; align-items: center; gap: 9px; border: 0; border-radius: 28px; background: #092b42; color: white; padding: 13px 19px; font: inherit; cursor: pointer; box-shadow: 0 4px 20px #09223533; }
-.clinic-assistant-launcher span:first-child { font-size: 23px; }
-.clinic-assistant-panel { position: fixed; z-index: 9001; right: 22px; bottom: 86px; width: 390px; max-width: calc(100vw - 24px); max-height: min(720px, calc(100dvh - 110px)); overflow: auto; background: white; border: 1px solid #d6e3ed; border-radius: 18px; box-shadow: 0 8px 35px #09223533; }
+.clinic-assistant-launcher {
+    position: fixed;
+    z-index: 9000;
+    right: 22px;
+    bottom: 16px;
+    width: 96px;
+    height: 96px;
+    border: 0;
+    border-radius: 20px;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.clinic-assistant-launcher img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 7px #09223530);
+}
+.clinic-assistant-greeting {
+    position: fixed;
+    z-index: 9000;
+    right: 28px;
+    bottom: 125px;
+    width: 260px;
+    max-width: calc(100vw - 40px);
+    margin: 0;
+    padding: 15px 18px;
+    background: white;
+    color: #092b42;
+    border: 1px solid #d6e3ed;
+    border-radius: 16px 16px 3px 16px;
+    box-shadow: 0 4px 20px #09223524;
+}
+.clinic-assistant-greeting::after {
+    content: '';
+    position: absolute;
+    right: 24px;
+    bottom: -8px;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-right: 1px solid #d6e3ed;
+    border-bottom: 1px solid #d6e3ed;
+    transform: rotate(45deg);
+}
+.clinic-assistant-panel { position: fixed; z-index: 9001; right: 22px; bottom: 124px; width: 390px; max-width: calc(100vw - 24px); max-height: min(720px, calc(100dvh - 145px)); overflow: auto; background: white; border: 1px solid #d6e3ed; border-radius: 18px; box-shadow: 0 8px 35px #09223533; }
 .clinic-assistant-panel header { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; background: #092b42; color: white; }
 .clinic-assistant-panel header small { display: block; color: #d7e8f4; }
 .clinic-assistant-panel header button { border: 0; background: transparent; color: white; font-size: 25px; cursor: pointer; }
@@ -25,4 +70,8 @@
 .clinic-assistant-whatsapp { display: block; text-align: center; margin: 0 16px 16px; padding: 11px; border-radius: 8px; background: #e9f6ef; color: #18533b; font-weight: 600; text-decoration: none; }
 #clinic-assistant button:focus-visible, #clinic-assistant a:focus-visible { outline: 3px solid #46a1dc; outline-offset: 3px; }
 #clinic-assistant button:disabled { opacity: .6; cursor: wait; }
-@media (max-width: 760px) { .clinic-assistant-launcher { right: 12px; bottom: 78px; } .clinic-assistant-panel { right: 12px; bottom: 142px; max-height: calc(100dvh - 164px); } }
+@media (max-width: 760px) {
+    .clinic-assistant-launcher { right: 12px; bottom: 78px; width: 84px; height: 84px; }
+    .clinic-assistant-greeting { right: 18px; bottom: 176px; }
+    .clinic-assistant-panel { right: 12px; bottom: 174px; max-height: calc(100dvh - 190px); }
+}

@@ -8,10 +8,11 @@
     const root = document.createElement('div');
     root.id = 'clinic-assistant';
     root.innerHTML = `
-        <button class="clinic-assistant-launcher" type="button" aria-label="Abrir assistente da Laserdent" aria-controls="clinic-assistant-panel" aria-expanded="false"><span aria-hidden="true">💬</span><span>Assistente</span></button>
+        <p class="clinic-assistant-greeting" role="status">Olá! Sou a Sol, assistente de IA da Laserdent.</p>
+        <button class="clinic-assistant-launcher" type="button" aria-label="Conversar com Sol, assistente de IA da Laserdent" aria-controls="clinic-assistant-panel" aria-expanded="false"><img src="/Fotos/sol-assistente.png" alt="" width="96" height="96"></button>
         <section class="clinic-assistant-panel" id="clinic-assistant-panel" aria-label="Atendimento virtual da Laserdent" hidden>
-            <header><div><strong>Assistente Laserdent</strong><small>Informações sobre a clínica</small></div><button type="button" data-action="close" aria-label="Fechar atendimento">×</button></header>
-            <div class="clinic-assistant-start"><p>Olá! Posso apresentar a equipe, explicar procedimentos em termos gerais e ajudar você a falar com a recepção.</p>
+            <header><div><strong>Sol · Laserdent</strong><small>Assistente de IA</small></div><button type="button" data-action="close" aria-label="Fechar atendimento">×</button></header>
+            <div class="clinic-assistant-start"><p>Olá! Sou a Sol. Posso apresentar a equipe, explicar procedimentos em termos gerais e ajudar você a falar com a recepção.</p>
                 <p>Envie apenas perguntas gerais, sem dados pessoais, sintomas ou exames. Ao iniciar, você autoriza o processamento das perguntas por OpenRouter e pelo provedor de IA. A conversa fica aberta apenas nesta página.</p>
                 <a href="/privacidade" target="_blank" rel="noopener">Política de privacidade</a>
                 <button type="button" data-action="start">Concordo e iniciar</button></div>
@@ -28,6 +29,21 @@
     document.querySelectorAll('.whatsapp-float').forEach(link => { link.hidden = true; link.style.display = 'none'; });
 
     const launcher = root.querySelector('.clinic-assistant-launcher');
+    const greeting = root.querySelector('.clinic-assistant-greeting');
+    let greetingTimer;
+    function dismissGreeting() {
+        clearTimeout(greetingTimer);
+        greeting.hidden = true;
+    }
+    function scheduleGreeting() {
+        if (!greeting.hidden) greetingTimer = setTimeout(dismissGreeting, 10000);
+    }
+    const avatar = launcher.querySelector('img');
+    if (avatar.complete) scheduleGreeting();
+    else {
+        avatar.addEventListener('load', scheduleGreeting, { once: true });
+        avatar.addEventListener('error', scheduleGreeting, { once: true });
+    }
     const panel = root.querySelector('.clinic-assistant-panel');
     const messages = root.querySelector('.clinic-assistant-messages');
     const input = root.querySelector('input');
@@ -53,6 +69,7 @@
         launcher.focus();
     }
     launcher.addEventListener('click', () => {
+        dismissGreeting();
         if (!panel.hidden) { close(); return; }
         panel.hidden = false;
         launcher.setAttribute('aria-expanded', 'true');
