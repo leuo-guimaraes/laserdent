@@ -612,7 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Location
         if (msg.includes('endereço') || msg.includes('localização') || msg.includes('onde fica') || msg.includes('mapa') || msg.includes('como chegar')) {
-            return 'Estamos localizados em São José dos Pinhais, Paraná. Você pode ver nosso mapa na seção "Localização" abaixo! Temos estacionamento próprio. 📍';
+            return 'Estamos localizados em São José dos Pinhais, Paraná. Você pode ver nosso mapa na seção "Localização" abaixo! 📍';
         }
 
         // Prices
