@@ -1,3 +1,6 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "functions": {
+    "api/clinic-assistant.js": { "maxDuration": 30 }
+  }
 }

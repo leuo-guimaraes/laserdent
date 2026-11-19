@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const analytics = document.createElement('script');
     analytics.src = '/analytics-consent.js';
     document.head.append(analytics);
+    const assistant = document.createElement('script');
+    assistant.src = '/clinic-assistant.js';
+    document.head.append(assistant);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
