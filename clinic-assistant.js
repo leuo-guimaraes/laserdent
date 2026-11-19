@@ -9,7 +9,7 @@
     root.id = 'clinic-assistant';
     root.innerHTML = `
         <p class="clinic-assistant-greeting" role="status">Olá! Sou a Sol, assistente de IA da Laserdent.</p>
-        <button class="clinic-assistant-launcher" type="button" aria-label="Conversar com Sol, assistente de IA da Laserdent" aria-controls="clinic-assistant-panel" aria-expanded="false"><img src="/Fotos/sol-assistente.png" alt="" width="96" height="96"></button>
+        <button class="clinic-assistant-launcher" type="button" aria-label="Conversar com Sol, assistente de IA da Laserdent" aria-controls="clinic-assistant-panel" aria-expanded="false"><img src="/Fotos/sol-ola.png" alt="" width="96" height="96"></button>
         <section class="clinic-assistant-panel" id="clinic-assistant-panel" aria-label="Atendimento virtual da Laserdent" hidden>
             <header><div><strong>Sol · Laserdent</strong><small>Assistente de IA</small></div><button type="button" data-action="close" aria-label="Fechar atendimento">×</button></header>
             <div class="clinic-assistant-start"><p>Olá, sou a Sol! ☀️ Estou aqui para tirar suas dúvidas sobre a Laserdent, apresentar nossos dentistas e explicar os procedimentos em termos gerais. Quer agendar? Eu ajudo você a falar com a recepção pelo WhatsApp.</p>
